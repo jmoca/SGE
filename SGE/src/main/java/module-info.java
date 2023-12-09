@@ -6,4 +6,6 @@ module main.sge {
 
     opens main.sge to javafx.fxml;
     exports main.sge;
+    exports com.main.sge;
+    opens com.main.sge to javafx.fxml;
 }

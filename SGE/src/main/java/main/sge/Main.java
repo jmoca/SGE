@@ -17,7 +17,7 @@ public class Main extends Application {
         Parent root = loader.load();
 
         // Configurar el controlador si es necesario
-        HelloController controller = loader.getController();
+        Object controller = loader.getController();
         // Puedes realizar configuraciones adicionales en el controlador si es necesario
 
         // Configurar la escena

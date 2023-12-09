@@ -1,18 +1,16 @@
 package main.sge;
 
-import java.util.ArrayList;
-
-public class Cliente {
+public class Proveedor {
     private String nombre;
     private String direccion;
     private String contacto;
-    private ArrayList<Venta> historialCompras;
+    private int productosSuministrados;
 
-    public Cliente(String nombre, String direccion, String contacto) {
+    public Proveedor(String nombre, String direccion, String contacto, int productosSuministrados) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.contacto = contacto;
-        this.historialCompras = new ArrayList<>();
+        this.productosSuministrados = productosSuministrados;
     }
 
     public String getNombre() {
@@ -39,11 +37,11 @@ public class Cliente {
         this.contacto = contacto;
     }
 
-    public ArrayList<Venta> getHistorialCompras() {
-        return historialCompras;
+    public int getProductosSuministrados() {
+        return productosSuministrados;
     }
 
-    public void setHistorialCompras(ArrayList<Venta> historialCompras) {
-        this.historialCompras = historialCompras;
+    public void setProductosSuministrados(int productosSuministrados) {
+        this.productosSuministrados = productosSuministrados;
     }
 }
