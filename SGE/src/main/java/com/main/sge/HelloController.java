@@ -1,10 +1,12 @@
 package com.main.sge;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,16 +15,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class HelloController {
-    public TableColumn produc_sumisProveedores;
     public TableColumn nombreCliente;
     public TableColumn direccionCliente;
     public TableColumn contactoCliente;
     public TableColumn historialClientes;
+    public TableColumn stockProducto;
+    public TableColumn produc_sumisProveedores;
     public TableColumn vendidosVentas;
     public TableColumn cantidadVentas;
     public TableColumn fechaVentas;
     public TableColumn clienteVentas;
-    public TableColumn stockProducto;
+    public Button datosProductos;
     @FXML
     private TableColumn<Producto, String> nombreProducto;
     @FXML
@@ -44,6 +47,7 @@ public class HelloController {
     @FXML
     private TableView<Producto> tableView;
 
+
     @FXML
     protected void onHelloButtonClick() {
         try {
@@ -60,9 +64,31 @@ public class HelloController {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Manejar la excepción de manera apropiada en tu aplicación
+            e.printStackTrace();
         }
     }
+
+    @FXML
+    private void initialize() {
+        // Configurar las columnas de las tablas
+        configurarColumnas(nombreProducto, "nombre");
+        configurarColumnas(descripcionProducto, "descripcion");
+        configurarColumnas(precioProducto, "precio");
+        configurarColumnas(nombreProveedores, "nombre");
+        configurarColumnas(direccionProveedores, "direccion");
+        configurarColumnas(contactoProveedores, "contacto");
+        configurarColumnas(produc_sumis, "productos_suministrados");
+
+    }
+
+    private <T, S> void configurarColumnas(TableColumn<T, S> columna, String nombreCampo) {
+        if (columna != null) {
+            columna.setCellValueFactory(new PropertyValueFactory<>(nombreCampo));
+        } else {
+            System.out.println("La columna es nula");
+        }
+    }
+
 
 
     // Método para cargar datos en una TableView
@@ -78,13 +104,7 @@ public class HelloController {
 
             // Configurar el cellValueFactory para cada columna
             for (TableColumn columna : columnas) {
-                if (columna.getCellData(0) instanceof String) {
-                    columna.setCellValueFactory(new PropertyValueFactory<>(columna.getText()));
-                } else if (columna.getCellData(0) instanceof Integer) {
-                    columna.setCellValueFactory(new PropertyValueFactory<>(columna.getText()));
-                } else if (columna.getCellData(0) instanceof Double) {
-                    columna.setCellValueFactory(new PropertyValueFactory<>(columna.getText()));
-                }
+                configurarColumnas(columna, columna.getText());
             }
 
             // Procesar los resultados
