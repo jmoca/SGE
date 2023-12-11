@@ -19,7 +19,7 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <TableView fx:id="tablaInventario" layoutX="-1.0" layoutY="14.0" prefHeight="200.0" prefWidth="433.0">
+                     <TableView fx:id="tablaInventario" layoutX="4.0" prefHeight="215.0" prefWidth="426.0">
                        <columns>
                          <TableColumn fx:id="colInventarioID" prefWidth="60.0" text="ID" />
                            <TableColumn fx:id="colInventarioNombre" prefWidth="65.0" text="Nombre" />
@@ -36,11 +36,13 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="377.0">
                   <children>
-                     <TableView layoutX="6.0" prefHeight="226.0" prefWidth="345.0">
+                     <TableView fx:id="tablaClientes" layoutX="4.0" layoutY="1.0" prefHeight="226.0" prefWidth="419.0">
                        <columns>
-                         <TableColumn prefWidth="94.0" text="nombre" />
-                           <TableColumn prefWidth="107.0" text="dirección" />
-                           <TableColumn prefWidth="143.0" text="contacto" />
+                         <TableColumn fx:id="colClientesID" prefWidth="73.0" text="ID" />
+                           <TableColumn fx:id="colClientesNombre" prefWidth="75.0" text="nombre" />
+                           <TableColumn fx:id="colClientesDireccion" prefWidth="75.0" text="dirección" />
+                           <TableColumn fx:id="colClientesContacto" prefWidth="75.0" text="contacto" />
+                           <TableColumn fx:id="colClientesHistorialCompras" prefWidth="144.0" text="historialCompras" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
@@ -52,8 +54,8 @@
                   <children>
                      <TableView prefHeight="230.0" prefWidth="426.0">
                        <columns>
-                         <TableColumn fx:id="nombreProveedores" prefWidth="75.0" text="nombre" />
-                         <TableColumn fx:id="direccionProveedores" prefWidth="75.0" text="dirección" />
+                           <TableColumn fx:id="ColnombreProveedor" prefWidth="75.0" text="nombre" />
+                           <TableColumn fx:id="ColdireccionProveedor" prefWidth="75.0" text="dirección" />
                            <TableColumn fx:id="contactoProveedores" prefWidth="75.0" text="contacto" />
                            <TableColumn fx:id="produc_sumis" prefWidth="144.0" text="productos_sumistrados" />
                        </columns>

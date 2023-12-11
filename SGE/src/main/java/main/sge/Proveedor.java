@@ -1,18 +1,20 @@
 package main.sge;
 
-public class Cliente {
+public class Proveedor {
     private int id;
     private String nombre;
     private String direccion;
     private String contacto;
-    private String historialCompras;
+    private String productosSuministrados;
+    private int productoId;
 
-    public Cliente(int id, String nombre, String direccion, String contacto, String historialCompras) {
+    public Proveedor(int id, String nombre, String direccion, String contacto, String productosSuministrados, int productoId) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.contacto = contacto;
-        this.historialCompras = historialCompras;
+        this.productosSuministrados = productosSuministrados;
+        this.productoId = productoId;
     }
 
     public int getId() {
@@ -47,12 +49,20 @@ public class Cliente {
         this.contacto = contacto;
     }
 
-    public String getHistorialCompras() {
-        return historialCompras;
+    public String getProductosSuministrados() {
+        return productosSuministrados;
     }
 
-    public void setHistorialCompras(String historialCompras) {
-        this.historialCompras = historialCompras;
+    public void setProductosSuministrados(String productosSuministrados) {
+        this.productosSuministrados = productosSuministrados;
+    }
+
+    public int getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(int productoId) {
+        this.productoId = productoId;
     }
 
     // Puedes agregar más atributos y métodos según tus necesidades

@@ -15,21 +15,18 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import java.time.LocalDate;
-
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class ControlPrincipal {
+
     public Button anadirProducto;
+
     // Tabla y columnas para Productos
     @FXML
     private TableView<Producto> tablaInventario;
@@ -49,11 +46,30 @@ public class ControlPrincipal {
     @FXML
     private TableColumn<Producto, Integer> colInventarioStock;
 
+    // Tabla y columnas para Clientes
+
+
+    @FXML
+    private TableView<Cliente> tablaClientes;
+
+    @FXML
+    private TableColumn<Cliente, Integer> colClientesID;
+
+    @FXML
+    private TableColumn<Cliente, String> colClientesNombre;
+
+    @FXML
+    private TableColumn<Cliente, String> colClientesDireccion;
+
+    @FXML
+    private TableColumn<Cliente, String> colClientesContacto;
+
+    @FXML
+    private TableColumn<Cliente, String> colClientesHistorialCompras;
 
     // Botón para crear Producto
     @FXML
     private Button buttonCrearProducto;
-
 
     @FXML
     private Label welcomeText;
@@ -67,22 +83,23 @@ public class ControlPrincipal {
     private void initialize() {
         System.out.println("Inicializando el controlador...");
         configurarColumnas();
-        //cargarDatosClientes();
-        cargarDatosProducto ();
-        //cargarDatosProveedores();
-        //cargarDatosVentas();
+
+        // Inicializar tablaClientes
+
+
+        cargarDatosProducto();
+        cargarDatosClientes();  // Mover la llamada después de la inicialización de la tabla
         configurarReloj();
+
     }
+
     private void configurarReloj() {
         // Actualizar la fecha cada segundo
         Timeline timelineFecha = new Timeline(
-                new KeyFrame ( Duration.seconds(1), event -> {
-                    //cargarDatosClientes();
-                    cargarDatosProducto ();
-                    //cargarDatosProveedores();
-                    //cargarDatosVentas();
+                new KeyFrame(Duration.seconds(1), event -> {
+                    cargarDatosProducto();
+                    cargarDatosClientes();
                 })
-
         );
         timelineFecha.setCycleCount(Timeline.INDEFINITE);
         timelineFecha.play();
@@ -90,7 +107,7 @@ public class ControlPrincipal {
         // Actualizar la hora cada segundo
         Timeline timelineHora = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
-                    LocalTime hora      = LocalTime.now();
+                    LocalTime hora = LocalTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                     horaLabel.setText(formatter.format(hora));
                 })
@@ -98,6 +115,7 @@ public class ControlPrincipal {
         timelineHora.setCycleCount(Timeline.INDEFINITE);
         timelineHora.play();
     }
+
     private void configurarColumnas() {
         colInventarioID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colInventarioNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -105,12 +123,40 @@ public class ControlPrincipal {
         colInventarioPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         colInventarioStock.setCellValueFactory(new PropertyValueFactory<>("cantidadEnStock"));
 
-
+        // Configurar columnas para la tabla de clientes
+        colClientesID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colClientesNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colClientesDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        colClientesContacto.setCellValueFactory(new PropertyValueFactory<>("contacto"));
+        colClientesHistorialCompras.setCellValueFactory(new PropertyValueFactory<>("historialCompras"));
     }
+
+
+    private void cargarDatosClientes() {
+        try (Connection conn = ConexionPool.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Clientes");
+             ResultSet rs = stmt.executeQuery()) {
+
+            tablaClientes.getItems().clear();
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("contacto"),
+                        rs.getString("historialCompras")
+                );
+                tablaClientes.getItems().add(cliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void crearProducto() {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarProducto.fxml"));
             Parent registrarRoot = loader.load();
             RegistrarProducto registrarProductoControlador = loader.getController();
@@ -125,6 +171,7 @@ public class ControlPrincipal {
             e.printStackTrace();
         }
     }
+
     private void cargarDatosProducto() {
         try (Connection conn = ConexionPool.obtenerConexion();
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM productos");
@@ -140,9 +187,10 @@ public class ControlPrincipal {
                         rs.getDouble("precio"),
                         rs.getInt("cantidadEnStock")
                 );
-                tablaInventario.getItems ().add(producto);
+                tablaInventario.getItems().add(producto);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }}
+    }
+}
