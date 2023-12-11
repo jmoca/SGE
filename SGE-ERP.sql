@@ -5,7 +5,7 @@ CREATE TABLE Productos (
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
     precio DOUBLE NOT NULL,
-    cantidad_en_stock INT NOT NULL
+    cantidadEnStock INT NOT NULL
 );
 -- Crear tabla de clientes
 CREATE TABLE Clientes (
@@ -13,7 +13,7 @@ CREATE TABLE Clientes (
     nombre VARCHAR(255) NOT NULL,
     direccion TEXT,
     contacto VARCHAR(50),
-    historial_compras TEXT
+    historialCompras TEXT
 );
 -- Crear tabla de proveedores
 CREATE TABLE Proveedores (
@@ -21,31 +21,31 @@ CREATE TABLE Proveedores (
     nombre VARCHAR(255) NOT NULL,
     direccion TEXT,
     contacto VARCHAR(50),
-    productos_suministrados TEXT,
-    producto_id INT,
-    FOREIGN KEY (producto_id) REFERENCES	productos(id)
+    productosSuministrados TEXT,
+    productoId INT,
+    FOREIGN KEY (productoId) REFERENCES	productos(id)
 );
 -- Crear tabla de pedidos a proveedores
 CREATE TABLE Pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    proveedor_id INT,
-    producto_id INT,
-    FOREIGN KEY (producto_id) REFERENCES	productos(id),
-    FOREIGN KEY (proveedor_id) REFERENCES Proveedores(id)
+    proveedorId INT,
+    productoId INT,
+    FOREIGN KEY (productoId) REFERENCES	productos(id),
+    FOREIGN KEY (proveedorId) REFERENCES Proveedores(id)
 );
 
 CREATE TABLE Ventas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE NOT NULL,
     cantidad INT NOT NULL,
-    cliente_id INT,
-    factura_id INT,
-    proveedor_id INT,
-    producto_id INT,
-    pedido_id INT,
-    FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
-    FOREIGN KEY (proveedor_id) REFERENCES Proveedores(id),
-    FOREIGN KEY (pedido_id) REFERENCES Pedidos(id)
+    clienteId INT,
+    facturaId INT,
+    proveedorId INT,
+    productoId INT,
+    pedidoId INT,
+    FOREIGN KEY (clienteId) REFERENCES Clientes(id),
+    FOREIGN KEY (proveedorId) REFERENCES Proveedores(id),
+    FOREIGN KEY (pedidoId) REFERENCES Pedidos(id)
     
     
 );
