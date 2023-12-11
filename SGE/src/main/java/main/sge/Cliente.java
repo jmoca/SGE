@@ -8,13 +8,6 @@ public class Cliente {
     private String contacto;
     private ArrayList<Venta> historialCompras;
 
-    public Cliente(String nombre, String direccion, String contacto) {
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.contacto = contacto;
-        this.historialCompras = new ArrayList<>();
-    }
-
     public String getNombre() {
         return nombre;
     }

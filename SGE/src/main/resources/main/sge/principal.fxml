@@ -2,13 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="361.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.sge.HelloController">
+<AnchorPane prefHeight="361.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sge.ControlPrincipal">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -18,12 +19,13 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <TableView fx:id="tableView" layoutX="-1.0" layoutY="14.0" prefHeight="200.0" prefWidth="433.0">
+                     <TableView fx:id="tablaInventario" layoutX="-1.0" layoutY="14.0" prefHeight="200.0" prefWidth="433.0">
                        <columns>
-                         <TableColumn fx:id="nombreProducto" prefWidth="95.0" text="Nombre" />
-                           <TableColumn fx:id="descripcionProducto" prefWidth="120.0" text="Descripción" />
-                           <TableColumn fx:id="precioProducto" prefWidth="97.0" text="Precio" />
-                           <TableColumn fx:id="stockProducto" prefWidth="120.0" text="cantidad en stock" />
+                         <TableColumn fx:id="colInventarioID" prefWidth="60.0" text="ID" />
+                           <TableColumn fx:id="colInventarioNombre" prefWidth="65.0" text="Nombre" />
+                           <TableColumn fx:id="colInventarioDescripcion" prefWidth="110.0" text="Descripción" />
+                           <TableColumn fx:id="colInventarioPrecio" prefWidth="76.0" text="Precio" />
+                           <TableColumn fx:id="colInventarioStock" prefWidth="121.0" text="Stock" />
                        </columns>
                      </TableView>
                   </children>
@@ -34,12 +36,11 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="377.0">
                   <children>
-                     <TableView layoutX="6.0" prefHeight="229.0" prefWidth="418.0">
+                     <TableView layoutX="6.0" prefHeight="226.0" prefWidth="345.0">
                        <columns>
-                         <TableColumn fx:id="nombreCliente" prefWidth="79.0" text="nombre" />
-                           <TableColumn fx:id="direccionCliente" prefWidth="93.0" text="dirección" />
-                           <TableColumn fx:id="contactoCliente" prefWidth="119.0" text="contacto" />
-                           <TableColumn fx:id="historialClientes" prefWidth="126.0" text="historial de compras" />
+                         <TableColumn prefWidth="94.0" text="nombre" />
+                           <TableColumn prefWidth="107.0" text="dirección" />
+                           <TableColumn prefWidth="143.0" text="contacto" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
@@ -52,9 +53,9 @@
                      <TableView prefHeight="230.0" prefWidth="426.0">
                        <columns>
                          <TableColumn fx:id="nombreProveedores" prefWidth="75.0" text="nombre" />
-                         <TableColumn fx:id="direccionProveedores" prefWidth="89.0" text="dirección" />
-                           <TableColumn fx:id="contactoProveedores" prefWidth="86.0" text="contacto" />
-                           <TableColumn fx:id="produc_sumisProveedores" prefWidth="169.0" text="productos_sumistrados" />
+                         <TableColumn fx:id="direccionProveedores" prefWidth="75.0" text="dirección" />
+                           <TableColumn fx:id="contactoProveedores" prefWidth="75.0" text="contacto" />
+                           <TableColumn fx:id="produc_sumis" prefWidth="144.0" text="productos_sumistrados" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
@@ -66,10 +67,8 @@
                   <children>
                      <TableView prefHeight="223.0" prefWidth="426.0">
                        <columns>
-                         <TableColumn fx:id="vendidosVentas" prefWidth="127.0" text="productos_vendidos" />
-                         <TableColumn fx:id="cantidadVentas" minWidth="0.0" prefWidth="110.0" text="cantidad" />
-                           <TableColumn fx:id="fechaVentas" minWidth="0.0" prefWidth="97.0" text="fecha" />
-                           <TableColumn fx:id="clienteVentas" minWidth="0.0" prefWidth="91.0" text="Cliente" />
+                         <TableColumn prefWidth="132.0" text="productos_vendidos" />
+                         <TableColumn prefWidth="103.0" text="cantidad" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
@@ -77,5 +76,6 @@
          </Tab>
      </tabs>
    </TabPane>
-   <Button fx:id="datosProductos" layoutX="40.0" layoutY="14.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="DatosInventario" />
-</AnchorPane>
+   <Label fx:id="horaLabel" layoutX="377.0" layoutY="14.0" text="Label" />
+   <Button fx:id="anadirProducto" layoutX="202.0" layoutY="309.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Producto" />
+   </AnchorPane>
