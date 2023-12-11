@@ -26,6 +26,20 @@ import java.time.format.DateTimeFormatter;
 public class ControlPrincipal {
 
     public Button anadirProducto;
+    @FXML
+    private TableView<Proveedor> tablaProveedores;
+
+    @FXML
+    private TableColumn<Proveedor, String> ColProveedorNombre;
+
+    @FXML
+    private TableColumn<Proveedor, String> ColProveedorDireccion;
+
+    @FXML
+    private TableColumn<Proveedor, String> ColProveedorContacto;
+
+    @FXML
+    private TableColumn<Proveedor, String> ColProveedorproducSumis;
 
     // Tabla y columnas para Productos
     @FXML
@@ -84,13 +98,12 @@ public class ControlPrincipal {
         System.out.println("Inicializando el controlador...");
         configurarColumnas();
 
-        // Inicializar tablaClientes
-
-
+        // Inicializar tablaClientes y tablaProveedores
         cargarDatosProducto();
-        cargarDatosClientes();  // Mover la llamada después de la inicialización de la tabla
-        configurarReloj();
+        cargarDatosClientes();
+        cargarDatosProveedores();  // Agregado para cargar datos en la tabla de proveedores
 
+        configurarReloj();
     }
 
     private void configurarReloj() {
@@ -129,6 +142,33 @@ public class ControlPrincipal {
         colClientesDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         colClientesContacto.setCellValueFactory(new PropertyValueFactory<>("contacto"));
         colClientesHistorialCompras.setCellValueFactory(new PropertyValueFactory<>("historialCompras"));
+
+        // Configurar columnas para la tabla de proveedores
+        ColProveedorNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        ColProveedorDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        ColProveedorContacto.setCellValueFactory(new PropertyValueFactory<>("contacto"));
+        ColProveedorproducSumis.setCellValueFactory(new PropertyValueFactory<>("productosSuministrados"));
+    }
+    private void cargarDatosProveedores() {
+        try (Connection conn = ConexionPool.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Proveedores");
+             ResultSet rs = stmt.executeQuery()) {
+
+            tablaProveedores.getItems().clear();
+
+            while (rs.next()) {
+                Proveedor proveedor = new Proveedor(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("contacto"),
+                        rs.getString("productosSuministrados")
+                );
+                tablaProveedores.getItems().add(proveedor);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -8,13 +8,13 @@ public class Proveedor {
     private String productosSuministrados;
     private int productoId;
 
-    public Proveedor(int id, String nombre, String direccion, String contacto, String productosSuministrados, int productoId) {
+    public Proveedor(int id, String nombre, String direccion, String contacto, String productosSuministrados) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.contacto = contacto;
         this.productosSuministrados = productosSuministrados;
-        this.productoId = productoId;
+
     }
 
     public int getId() {

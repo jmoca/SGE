@@ -52,12 +52,12 @@
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <TableView prefHeight="230.0" prefWidth="426.0">
+                     <TableView fx:id="tablaProveedores" prefHeight="230.0" prefWidth="426.0">
                        <columns>
-                           <TableColumn fx:id="ColnombreProveedor" prefWidth="75.0" text="nombre" />
-                           <TableColumn fx:id="ColdireccionProveedor" prefWidth="75.0" text="dirección" />
-                           <TableColumn fx:id="contactoProveedores" prefWidth="75.0" text="contacto" />
-                           <TableColumn fx:id="produc_sumis" prefWidth="144.0" text="productos_sumistrados" />
+                           <TableColumn fx:id="ColProveedorNombre" prefWidth="75.0" text="nombre" />
+                           <TableColumn fx:id="ColProveedorDireccion" prefWidth="75.0" text="dirección" />
+                           <TableColumn fx:id="ColProveedorContacto" prefWidth="75.0" text="contacto" />
+                           <TableColumn fx:id="ColProveedorproducSumis" prefWidth="144.0" text="productos_sumistrados" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
@@ -69,8 +69,10 @@
                   <children>
                      <TableView prefHeight="223.0" prefWidth="426.0">
                        <columns>
-                         <TableColumn prefWidth="132.0" text="productos_vendidos" />
-                         <TableColumn prefWidth="103.0" text="cantidad" />
+                         <TableColumn prefWidth="132.0" text="Productos_vendidos" />
+                         <TableColumn prefWidth="96.0" text="Cantidad" />
+                           <TableColumn prefWidth="108.0" text="Fecha" />
+                           <TableColumn prefWidth="89.0" text="ClienteID" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
