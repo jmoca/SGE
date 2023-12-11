@@ -39,13 +39,13 @@ CREATE TABLE Ventas (
     fecha DATE NOT NULL,
     cantidad INT NOT NULL,
     clienteId INT,
-    facturaId INT,
     proveedorId INT,
     productoId INT,
     pedidoId INT,
     FOREIGN KEY (clienteId) REFERENCES Clientes(id),
     FOREIGN KEY (proveedorId) REFERENCES Proveedores(id),
-    FOREIGN KEY (pedidoId) REFERENCES Pedidos(id)
+    FOREIGN KEY (pedidoId) REFERENCES Pedidos(id),
+    FOREIGN KEY (productoId) REFERENCES Productos(id)
     
     
 );
