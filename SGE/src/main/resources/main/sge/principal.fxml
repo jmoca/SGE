@@ -13,13 +13,13 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <TabPane layoutX="40.0" layoutY="52.0" prefHeight="257.0" prefWidth="426.0" tabClosingPolicy="UNAVAILABLE">
+   <TabPane layoutX="40.0" layoutY="52.0" prefHeight="295.0" prefWidth="434.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Productos">
          <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="214.0" prefWidth="434.0">
                   <children>
-                     <TableView fx:id="tablaInventario" layoutX="4.0" prefHeight="215.0" prefWidth="426.0">
+                     <TableView fx:id="tablaInventario" layoutX="4.0" prefHeight="228.0" prefWidth="428.0">
                        <columns>
                          <TableColumn fx:id="colInventarioID" prefWidth="60.0" text="ID" />
                            <TableColumn fx:id="colInventarioNombre" prefWidth="65.0" text="Nombre" />
@@ -28,6 +28,7 @@
                            <TableColumn fx:id="colInventarioStock" prefWidth="121.0" text="Stock" />
                        </columns>
                      </TableView>
+                     <Button fx:id="anadirProducto" layoutX="167.0" layoutY="240.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Producto" />
                   </children>
                </AnchorPane>
          </content>
@@ -45,6 +46,7 @@
                            <TableColumn fx:id="colClientesHistorialCompras" prefWidth="144.0" text="historialCompras" />
                        </columns>
                      </TableView>
+                     <Button fx:id="anadirCliente" layoutX="173.0" layoutY="233.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Cliente" />
                   </children></AnchorPane>
          </content>
        </Tab>
@@ -60,6 +62,7 @@
                            <TableColumn fx:id="ColProveedorproducSumis" prefWidth="144.0" text="productos_sumistrados" />
                        </columns>
                      </TableView>
+                     <Button fx:id="anadirPoveedor" layoutX="168.0" layoutY="240.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Proveedor" />
                   </children></AnchorPane>
            </content>
          </Tab>
@@ -67,7 +70,7 @@
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <TableView prefHeight="223.0" prefWidth="426.0">
+                     <TableView prefHeight="248.0" prefWidth="426.0">
                        <columns>
                          <TableColumn prefWidth="132.0" text="Productos_vendidos" />
                          <TableColumn prefWidth="96.0" text="Cantidad" />
@@ -81,5 +84,5 @@
      </tabs>
    </TabPane>
    <Label fx:id="horaLabel" layoutX="377.0" layoutY="14.0" text="Label" />
-   <Button fx:id="anadirProducto" layoutX="202.0" layoutY="309.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Producto" />
+   <Button fx:id="btneliminar" layoutX="231.0" layoutY="378.0" mnemonicParsing="false" onAction="#borraproduco" text="Eliminar" />
    </AnchorPane>

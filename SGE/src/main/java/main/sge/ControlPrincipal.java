@@ -2,6 +2,7 @@ package main.sge;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 public class ControlPrincipal {
 
     public Button anadirProducto;
+    public Button btneliminar;
     @FXML
     private TableView<Proveedor> tablaProveedores;
 
@@ -232,5 +234,9 @@ public class ControlPrincipal {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void borraproduco(ActionEvent actionEvent) {
+
     }
 }
