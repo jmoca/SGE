@@ -195,23 +195,7 @@ public class ControlPrincipal {
         }
     }
 
-    @FXML
-    public void crearProducto() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarProducto.fxml"));
-            Parent registrarRoot = loader.load();
-            RegistrarProducto registrarProductoControlador = loader.getController();
-            Scene scene = new Scene(registrarRoot);
-            Stage stage = new Stage();
-            stage.setTitle("Registrar Nuevo Producto");
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     private void cargarDatosProducto() {
         try (Connection conn = ConexionPool.obtenerConexion();
@@ -234,10 +218,57 @@ public class ControlPrincipal {
             e.printStackTrace();
         }
     }
-
-    public void crearProveedor(ActionEvent actionEvent) {
+    @FXML
+    public void crearProducto() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarProducto.fxml"));
+            Parent registrarRoot = loader.load();
+            RegistrarProducto registrarProductoControlador = loader.getController();
+            Scene scene = new Scene(registrarRoot);
+            Stage stage = new Stage();
+            stage.setTitle("Registrar Nuevo Producto");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void crearCliente(ActionEvent actionEvent) {
+    @FXML
+    public void crearCliente() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarCliente.fxml"));
+            Parent registrarRoot = loader.load();
+            RegistrarCliente registrarClienteControlador = loader.getController();
+            Scene scene = new Scene(registrarRoot);
+            Stage stage = new Stage();
+            stage.setTitle("Registrar Nuevo Cliente");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void crearProveedor() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarProveedor.fxml"));
+            Parent registrarRoot = loader.load();
+            RegistrarProveedor registrarProveedorControlador = loader.getController();
+            Scene scene = new Scene(registrarRoot);
+            Stage stage = new Stage();
+            stage.setTitle("Registrar Nuevo Proveedor");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
