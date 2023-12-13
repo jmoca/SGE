@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 public class RegistrarProducto {
 
+
     @FXML
     private TextField registrarProdNombre;
 
@@ -74,5 +75,8 @@ public class RegistrarProducto {
         registrarProdPrecio.clear();
         registrarProdDescripcion.clear();
         registrarProdStock.clear();
+    }
+
+    public void registrarProveedor(ActionEvent actionEvent) {
     }
 }

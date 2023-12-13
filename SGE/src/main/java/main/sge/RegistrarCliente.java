@@ -11,28 +11,33 @@ import java.sql.SQLException;
 
 public class RegistrarCliente {
 
-    @FXML
-    private TextField registrarClienteNombre;
+
 
     @FXML
-    private TextField registrarClienteDireccion;
+    private TextField registrarCliNombre;
 
     @FXML
-    private TextField registrarClienteContacto;
+    private TextField registrarCliContacto;
 
     @FXML
-    private Button registrarClienteButton;
+    private TextField registrarCliDireccion;
+    @FXML
+    private TextField registrarCliHis;
+
+    @FXML
+    private Button registrarCliente;
 
     @FXML
     void registrarCliente(ActionEvent event) {
         // Obtener los valores de los campos
-        String nombre = registrarClienteNombre.getText();
-        String direccion = registrarClienteDireccion.getText();
-        String contacto = registrarClienteContacto.getText();
+        String nombre = registrarCliNombre.getText();
+        String direccion = registrarCliDireccion.getText();
+        String contacto = registrarCliContacto.getText();
+        String his = registrarCliHis.getText();
 
         try {
             // Agregar el cliente a la base de datos
-            agregarClienteABaseDeDatos(nombre, direccion, contacto);
+            agregarClienteABaseDeDatos(nombre, direccion, contacto, his);
 
             // Limpiar los campos después de registrar el cliente
             limpiarCampos();
@@ -43,14 +48,15 @@ public class RegistrarCliente {
         }
     }
 
-    private void agregarClienteABaseDeDatos(String nombre, String direccion, String contacto) {
+    private void agregarClienteABaseDeDatos(String nombre, String direccion, String contacto, String his) {
         try (Connection connection = ConexionPool.obtenerConexion()) {
             // Preparar la consulta SQL
-            String sql = "INSERT INTO clientes (nombre, direccion, contacto) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO clientes (nombre, direccion, contacto, historialCompras) VALUES (?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, nombre);
                 statement.setString(2, direccion);
                 statement.setString(3, contacto);
+                statement.setString(4, his);
 
                 // Ejecutar la consulta
                 statement.executeUpdate();
@@ -61,8 +67,9 @@ public class RegistrarCliente {
     }
 
     private void limpiarCampos() {
-        registrarClienteNombre.clear();
-        registrarClienteDireccion.clear();
-        registrarClienteContacto.clear();
+        registrarCliNombre.clear();
+        registrarCliContacto.clear();
+        registrarCliDireccion.clear();
+        registrarCliHis.clear();
     }
 }

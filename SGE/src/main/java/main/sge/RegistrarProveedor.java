@@ -15,13 +15,13 @@ public class RegistrarProveedor {
     private TextField registrarProveedorNombre;
 
     @FXML
-    private TextField registrarProveedorPrecio;
+    private TextField registrarProveedorDireccion;
 
     @FXML
-    private TextField registrarProveedorDescripcion;
+    private TextField registrarProveedoresContacto;
 
     @FXML
-    private TextField registrarProveedorStock;
+    private TextField registrarProveedorProductosSuministrados;
 
     @FXML
     private Button registrarProveedor;
@@ -30,17 +30,16 @@ public class RegistrarProveedor {
     void registrarProveedor(ActionEvent event) {
         // Obtener los valores de los campos
         String nombre = registrarProveedorNombre.getText();
-        String precioStr = registrarProveedorPrecio.getText();
-        String descripcion = registrarProveedorDescripcion.getText();
-        String stockStr = registrarProveedorStock.getText();
+        String direccion = registrarProveedorDireccion.getText();
+        String contacto = registrarProveedoresContacto.getText();
+        String productosSumistrados = registrarProveedorProductosSuministrados.getText();
 
         try {
             // Convertir los valores a los tipos adecuados
-            double precio = Double.parseDouble(precioStr);
-            int stock = Integer.parseInt(stockStr);
+            int productosSumistradosInt = Integer.parseInt(productosSumistrados);
 
             // Agregar el proveedor a la base de datos
-            agregarProveedorABaseDeDatos(nombre, descripcion, precio, stock);
+            agregarProveedorABaseDeDatos(nombre, direccion, contacto, Integer.parseInt(productosSumistrados));
 
             // Limpiar los campos después de registrar el proveedor
             limpiarCampos();
@@ -51,15 +50,15 @@ public class RegistrarProveedor {
         }
     }
 
-    private void agregarProveedorABaseDeDatos(String nombre, String descripcion, double precio, int stock) {
+    private void agregarProveedorABaseDeDatos(String nombre, String direccion, String contacto, int productosSumistrados) {
         try (Connection connection = ConexionPool.obtenerConexion()) {
             // Preparar la consulta SQL
-            String sql = "INSERT INTO proveedores (nombre, descripcion, precio, cantidadEnStock) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO proveedores (nombre, direccion, contacto, productosSuministrados) VALUES (?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, nombre);
-                statement.setString(2, descripcion);
-                statement.setDouble(3, precio);
-                statement.setInt(4, stock);
+                statement.setString(2, direccion);
+                statement.setString(3, contacto);
+                statement.setInt(4, productosSumistrados);
 
                 // Ejecutar la consulta
                 statement.executeUpdate();
@@ -71,8 +70,8 @@ public class RegistrarProveedor {
 
     private void limpiarCampos() {
         registrarProveedorNombre.clear();
-        registrarProveedorPrecio.clear();
-        registrarProveedorDescripcion.clear();
-        registrarProveedorStock.clear();
+        registrarProveedorDireccion.clear();
+        registrarProveedoresContacto.clear();
+        registrarProveedorProductosSuministrados.clear();
     }
 }

@@ -267,8 +267,13 @@ public class ControlPrincipal {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initStyle(StageStyle.UTILITY);
             stage.showAndWait();
+            actualizarVistaProveedores();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public void actualizarVistaProveedores() {
+        cargarDatosProveedores();
+    }
+
 }

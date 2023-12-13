@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="295.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sge.RegistrarProducto">
+<AnchorPane prefHeight="295.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sge.RegistrarCliente">
    <children>
       <Label layoutX="55.0" layoutY="29.0" text="REGISTRAR CLIENTE">
          <font>
@@ -17,6 +17,6 @@
       <TextField fx:id="registrarCliContacto" layoutX="77.0" layoutY="164.0" promptText="Contacto" />
       <TextField fx:id="registrarCliDireccion" layoutX="77.0" layoutY="128.0" promptText="Dirección" />
       <TextField fx:id="registrarCliHis" layoutX="77.0" layoutY="197.0" promptText="Historial de compras" />
-      <Button fx:id="registrarCliente" layoutX="120.0" layoutY="243.0" mnemonicParsing="false" onAction="#registrarProducto" text="Registrar" />
+      <Button fx:id="registrarCliente" layoutX="120.0" layoutY="243.0" mnemonicParsing="false" onAction="#registrarCliente" text="Registrar" />
    </children>
 </AnchorPane>
