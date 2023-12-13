@@ -27,7 +27,6 @@ import java.time.format.DateTimeFormatter;
 public class ControlPrincipal {
 
     public Button anadirProducto;
-    public Button btneliminar;
     @FXML
     private TableView<Proveedor> tablaProveedores;
 
@@ -236,7 +235,9 @@ public class ControlPrincipal {
         }
     }
 
-    public void borraproduco(ActionEvent actionEvent) {
+    public void crearProveedor(ActionEvent actionEvent) {
+    }
 
+    public void crearCliente(ActionEvent actionEvent) {
     }
 }

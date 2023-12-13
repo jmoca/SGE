@@ -9,35 +9,35 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="361.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sge.ControlPrincipal">
+<AnchorPane prefHeight="382.0" prefWidth="538.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sge.ControlPrincipal">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <TabPane layoutX="40.0" layoutY="52.0" prefHeight="295.0" prefWidth="434.0" tabClosingPolicy="UNAVAILABLE">
+   <TabPane layoutX="40.0" layoutY="52.0" prefHeight="285.0" prefWidth="446.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Productos">
          <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="214.0" prefWidth="434.0">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="249.0" prefWidth="454.0">
                   <children>
-                     <TableView fx:id="tablaInventario" layoutX="4.0" prefHeight="228.0" prefWidth="428.0">
+                     <TableView fx:id="tablaInventario" layoutX="4.0" prefHeight="225.0" prefWidth="440.0">
                        <columns>
                          <TableColumn fx:id="colInventarioID" prefWidth="60.0" text="ID" />
                            <TableColumn fx:id="colInventarioNombre" prefWidth="65.0" text="Nombre" />
-                           <TableColumn fx:id="colInventarioDescripcion" prefWidth="110.0" text="Descripción" />
-                           <TableColumn fx:id="colInventarioPrecio" prefWidth="76.0" text="Precio" />
-                           <TableColumn fx:id="colInventarioStock" prefWidth="121.0" text="Stock" />
+                           <TableColumn fx:id="colInventarioDescripcion" prefWidth="115.0" text="Descripción" />
+                           <TableColumn fx:id="colInventarioPrecio" prefWidth="88.0" text="Precio" />
+                           <TableColumn fx:id="colInventarioStock" prefWidth="110.0" text="Stock" />
                        </columns>
                      </TableView>
-                     <Button fx:id="anadirProducto" layoutX="167.0" layoutY="240.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Producto" />
+                     <Button fx:id="anadirProducto" layoutX="172.0" layoutY="230.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Producto" />
                   </children>
                </AnchorPane>
          </content>
        </Tab>
        <Tab text="Clientes">
          <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="377.0">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="449.0">
                   <children>
-                     <TableView fx:id="tablaClientes" layoutX="4.0" layoutY="1.0" prefHeight="226.0" prefWidth="419.0">
+                     <TableView fx:id="tablaClientes" layoutX="4.0" layoutY="1.0" prefHeight="226.0" prefWidth="446.0">
                        <columns>
                          <TableColumn fx:id="colClientesID" prefWidth="73.0" text="ID" />
                            <TableColumn fx:id="colClientesNombre" prefWidth="75.0" text="nombre" />
@@ -46,36 +46,37 @@
                            <TableColumn fx:id="colClientesHistorialCompras" prefWidth="144.0" text="historialCompras" />
                        </columns>
                      </TableView>
-                     <Button fx:id="anadirCliente" layoutX="173.0" layoutY="233.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Cliente" />
+                     <Button fx:id="anadirCliente" layoutX="176.0" layoutY="230.0" mnemonicParsing="false" onAction="#crearCliente" text="Añadir Cliente" />
                   </children></AnchorPane>
          </content>
        </Tab>
          <Tab text="Proveedores">
            <content>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="282.0" prefWidth="446.0">
                   <children>
-                     <TableView fx:id="tablaProveedores" prefHeight="230.0" prefWidth="426.0">
+                     <TableView fx:id="tablaProveedores" prefHeight="230.0" prefWidth="446.0">
                        <columns>
-                           <TableColumn fx:id="ColProveedorNombre" prefWidth="75.0" text="nombre" />
-                           <TableColumn fx:id="ColProveedorDireccion" prefWidth="75.0" text="dirección" />
-                           <TableColumn fx:id="ColProveedorContacto" prefWidth="75.0" text="contacto" />
-                           <TableColumn fx:id="ColProveedorproducSumis" prefWidth="144.0" text="productos_sumistrados" />
+                           <TableColumn fx:id="ColProveedorNombre" prefWidth="87.0" text="nombre" />
+                           <TableColumn fx:id="ColProveedorDireccion" prefWidth="93.0" text="dirección" />
+                           <TableColumn fx:id="ColProveedorContacto" prefWidth="100.0" text="contacto" />
+                           <TableColumn fx:id="ColProveedorproducSumis" prefWidth="165.0" text="productos_sumistrados" />
                        </columns>
                      </TableView>
-                     <Button fx:id="anadirPoveedor" layoutX="168.0" layoutY="240.0" mnemonicParsing="false" onAction="#crearProducto" text="Añadir Proveedor" />
-                  </children></AnchorPane>
+                     <Button fx:id="anadirProveedor" layoutX="169.0" layoutY="230.0" mnemonicParsing="false" onAction="#crearProveedor" text="Añadir Proveedor" />
+                  </children>
+               </AnchorPane>
            </content>
          </Tab>
          <Tab text="Ventas">
            <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <TableView prefHeight="248.0" prefWidth="426.0">
+                     <TableView prefHeight="223.0" prefWidth="446.0">
                        <columns>
                          <TableColumn prefWidth="132.0" text="Productos_vendidos" />
                          <TableColumn prefWidth="96.0" text="Cantidad" />
                            <TableColumn prefWidth="108.0" text="Fecha" />
-                           <TableColumn prefWidth="89.0" text="ClienteID" />
+                           <TableColumn prefWidth="109.0" text="ClienteID" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>
@@ -84,5 +85,4 @@
      </tabs>
    </TabPane>
    <Label fx:id="horaLabel" layoutX="377.0" layoutY="14.0" text="Label" />
-   <Button fx:id="btneliminar" layoutX="231.0" layoutY="378.0" mnemonicParsing="false" onAction="#borraproduco" text="Eliminar" />
    </AnchorPane>

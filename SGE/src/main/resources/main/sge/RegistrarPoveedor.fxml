@@ -14,10 +14,10 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="registrarProdNombre" layoutX="77.0" layoutY="93.0" promptText="Nombre" />
-      <TextField fx:id="registrarProdPrecio" layoutX="77.0" layoutY="164.0" promptText="Precio" />
-      <TextField fx:id="registrarProdDescripcion" layoutX="77.0" layoutY="128.0" promptText="Descripción" />
-      <TextField fx:id="registrarProdStock" layoutX="77.0" layoutY="197.0" promptText="Stock" />
-      <Button fx:id="registrarProducto" layoutX="120.0" layoutY="243.0" mnemonicParsing="false" onAction="#registrarProducto" text="Registrar" />
+      <TextField fx:id="registrarProveedorNombre" layoutX="77.0" layoutY="93.0" promptText="Nombre" />
+      <TextField fx:id="registrarProveedorDireccion" layoutX="77.0" layoutY="164.0" promptText="Precio" />
+      <TextField fx:id="registrarProveedoresContacto" layoutX="77.0" layoutY="128.0" promptText="Descripción" />
+      <TextField fx:id="registrarProveedorProductosSuministrados" layoutX="77.0" layoutY="197.0" promptText="Stock" />
+      <Button fx:id="registrarProveedor" layoutX="120.0" layoutY="243.0" mnemonicParsing="false" onAction="#registrarProducto" text="Registrar" />
    </children>
 </AnchorPane>
