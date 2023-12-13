@@ -46,7 +46,7 @@ public class RegistrarProducto {
             // Limpiar los campos después de registrar el producto
             limpiarCampos();
 
-            System.out.println("Producto registrado y agregado a la base de datos");
+
         } catch (NumberFormatException e) {
             System.err.println("Error al convertir los valores. Asegúrate de ingresar números válidos.");
         }

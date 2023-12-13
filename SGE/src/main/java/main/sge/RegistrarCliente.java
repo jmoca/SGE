@@ -42,7 +42,7 @@ public class RegistrarCliente {
             // Limpiar los campos después de registrar el cliente
             limpiarCampos();
 
-            System.out.println("Cliente registrado y agregado a la base de datos");
+
         } catch (Exception e) {
             System.err.println("Error al registrar el cliente: " + e.getMessage());
         }

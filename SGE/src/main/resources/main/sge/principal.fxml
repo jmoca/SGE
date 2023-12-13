@@ -73,10 +73,12 @@
                   <children>
                      <TableView prefHeight="223.0" prefWidth="446.0">
                        <columns>
-                         <TableColumn prefWidth="132.0" text="Productos_vendidos" />
-                         <TableColumn prefWidth="96.0" text="Cantidad" />
-                           <TableColumn prefWidth="108.0" text="Fecha" />
-                           <TableColumn prefWidth="109.0" text="ClienteID" />
+                         <TableColumn fx:id="ColVentasFecha" prefWidth="57.0" text="Fecha" />
+                         <TableColumn fx:id="ColVentasCantidad" prefWidth="79.0" text="Cantidad" />
+                           <TableColumn fx:id="ColVentasClienteID" minWidth="0.0" prefWidth="79.0" text="ClienteID" />
+                           <TableColumn fx:id="ColVentasProveedorID" prefWidth="83.0" text="ProveedorID" />
+                           <TableColumn fx:id="ColVentasProductosID" prefWidth="72.0" text="ProductoID" />
+                           <TableColumn fx:id="ColVentasPedidoID" prefWidth="74.0" text="PedidoID" />
                        </columns>
                      </TableView>
                   </children></AnchorPane>

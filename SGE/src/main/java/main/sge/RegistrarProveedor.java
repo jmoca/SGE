@@ -44,7 +44,7 @@ public class RegistrarProveedor {
             // Limpiar los campos después de registrar el proveedor
             limpiarCampos();
 
-            System.out.println("Proveedor registrado y agregado a la base de datos");
+
         } catch (NumberFormatException e) {
             System.err.println("Error al convertir los valores. Asegúrate de ingresar números válidos.");
         }

@@ -27,6 +27,12 @@ import java.time.format.DateTimeFormatter;
 public class ControlPrincipal {
 
     public Button anadirProducto;
+    public TableColumn ColVentasFecha;
+    public TableColumn ColVentasCantidad;
+    public TableColumn ColVentasClienteID;
+    public TableColumn ColVentasProveedorID;
+    public TableColumn ColVentasProductosID;
+    public TableColumn ColVentasPedidoID;
     @FXML
     private TableView<Proveedor> tablaProveedores;
 
