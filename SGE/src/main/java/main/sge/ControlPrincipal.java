@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,6 +30,7 @@ public class ControlPrincipal {
     public Button anadirProducto;
     @FXML
     private TableView<Venta> tablaVentas;
+
 
     @FXML
     private TableColumn<Venta, String> ColVentasFecha;
@@ -125,6 +127,7 @@ public class ControlPrincipal {
         cargarDatosProveedores();  // Agregado para cargar datos en la tabla de proveedores
         cargarDatosVentas();
         configurarReloj();
+
     }
 
     private void configurarReloj() {
@@ -172,10 +175,10 @@ public class ControlPrincipal {
 
         ColVentasFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         ColVentasCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        ColVentasClienteID.setCellValueFactory(new PropertyValueFactory<>("clienteID"));
-        ColVentasProveedorID.setCellValueFactory(new PropertyValueFactory<>("proveedorID"));
-        ColVentasProductosID.setCellValueFactory(new PropertyValueFactory<>("productosID"));
-        ColVentasPedidoID.setCellValueFactory(new PropertyValueFactory<>("pedidoID"));
+        ColVentasClienteID.setCellValueFactory(new PropertyValueFactory<>("clienteId"));
+        ColVentasProveedorID.setCellValueFactory(new PropertyValueFactory<>("proveedorId"));
+        ColVentasProductosID.setCellValueFactory(new PropertyValueFactory<>("productoId"));
+        ColVentasPedidoID.setCellValueFactory(new PropertyValueFactory<>("pedidoId"));
     }
     private void cargarDatosProveedores() {
         try (Connection conn = ConexionPool.obtenerConexion();
@@ -254,40 +257,73 @@ public class ControlPrincipal {
             tablaVentas.getItems().clear();
 
             while (rs.next()) {
+                int clienteID = rs.getInt("clienteId");
+                Cliente cliente = obtenerClientePorID(clienteID);
+
+                int productoID = rs.getInt("productoId");
+                Producto producto = obtenerProductoPorID(productoID);
+
                 Venta venta = new Venta(
-                        rs.getString("fecha"),
+                        rs.getInt("id"),
+                        rs.getDate("fecha").toLocalDate(),
                         rs.getInt("cantidad"),
-                        rs.getInt("clienteID"),
-                        rs.getInt("proveedorID"),
-                        rs.getInt("productosID"),
-                        rs.getInt("pedidoID")
+                        clienteID,
+                        rs.getInt("proveedorId"),
+                        productoID,
+                        rs.getInt("pedidoId")
                 );
+
                 tablaVentas.getItems().add(venta);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    @FXML
-    public void crearVenta() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarVenta.fxml"));
-            Parent registrarRoot = loader.load();
-            RegistrarVenta registrarVenta = loader.getController();
-            Scene scene = new Scene(registrarRoot);
-            Stage stage = new Stage();
-            stage.setTitle("Registrar Nueva Venta");
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.showAndWait();
 
-            // Después de agregar la venta, actualiza la vista de ventas
-            actualizarVistaVentas();
-        } catch (Exception e) {
+
+    private Cliente obtenerClientePorID(int clienteID) {
+        try (Connection conn = ConexionPool.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Clientes WHERE id = ?")) {
+            stmt.setInt(1, clienteID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Cliente(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("contacto"),
+                            rs.getString("historialCompras")
+                    );
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null; // Devuelve null si no se puede encontrar el cliente
     }
+
+    private Producto obtenerProductoPorID(int productoID) {
+        try (Connection conn = ConexionPool.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM productos WHERE id = ?")) {
+            stmt.setInt(1, productoID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Producto(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("descripcion"),
+                            rs.getDouble("precio"),
+                            rs.getInt("cantidadEnStock")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Devuelve null si no se puede encontrar el producto
+    }
+
+
 
     @FXML
     public void crearProducto() {

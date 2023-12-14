@@ -6,19 +6,19 @@ public class Venta {
     private int id;
     private LocalDate fecha;
     private int cantidad;
-    private Cliente cliente;
+    private int clienteId;
+    private int proveedorId;
+    private int productoId;
+    private int pedidoId;
 
-    private Producto producto;
-
-
-    public Venta(int id, LocalDate fecha, int cantidad, Cliente cliente, Producto producto) {
+    public Venta(int id, LocalDate fecha, int cantidad, int clienteId, int proveedorId, int productoId, int pedidoId) {
         this.id = id;
         this.fecha = fecha;
         this.cantidad = cantidad;
-        this.cliente = cliente;
-
-        this.producto = producto;
-
+        this.clienteId = clienteId;
+        this.proveedorId = proveedorId;
+        this.productoId = productoId;
+        this.pedidoId = pedidoId;
     }
 
     public int getId() {
@@ -45,25 +45,35 @@ public class Venta {
         this.cantidad = cantidad;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public int getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(int clienteId) {
+        this.clienteId = clienteId;
     }
 
-
-    public Producto getProducto() {
-        return producto;
+    public int getProveedorId() {
+        return proveedorId;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProveedorId(int proveedorId) {
+        this.proveedorId = proveedorId;
     }
 
+    public int getProductoId() {
+        return productoId;
+    }
 
+    public void setProductoId(int productoId) {
+        this.productoId = productoId;
+    }
+
+    public int getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(int pedidoId) {
+        this.pedidoId = pedidoId;
+    }
 }
-
-    // Puedes agregar más atributos y métodos según tus necesidades
-
