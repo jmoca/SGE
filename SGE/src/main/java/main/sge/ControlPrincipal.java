@@ -27,12 +27,26 @@ import java.time.format.DateTimeFormatter;
 public class ControlPrincipal {
 
     public Button anadirProducto;
-    public TableColumn ColVentasFecha;
-    public TableColumn ColVentasCantidad;
-    public TableColumn ColVentasClienteID;
-    public TableColumn ColVentasProveedorID;
-    public TableColumn ColVentasProductosID;
-    public TableColumn ColVentasPedidoID;
+    @FXML
+    private TableView<Venta> tablaVentas;
+
+    @FXML
+    private TableColumn<Venta, String> ColVentasFecha;
+
+    @FXML
+    private TableColumn<Venta, Integer> ColVentasCantidad;
+
+    @FXML
+    private TableColumn<Venta, Integer> ColVentasClienteID;
+
+    @FXML
+    private TableColumn<Venta, Integer> ColVentasProveedorID;
+
+    @FXML
+    private TableColumn<Venta, Integer> ColVentasProductosID;
+
+    @FXML
+    private TableColumn<Venta, Integer> ColVentasPedidoID;
     @FXML
     private TableView<Proveedor> tablaProveedores;
 
@@ -109,7 +123,7 @@ public class ControlPrincipal {
         cargarDatosProducto();
         cargarDatosClientes();
         cargarDatosProveedores();  // Agregado para cargar datos en la tabla de proveedores
-
+        cargarDatosVentas();
         configurarReloj();
     }
 
@@ -155,6 +169,13 @@ public class ControlPrincipal {
         ColProveedorDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         ColProveedorContacto.setCellValueFactory(new PropertyValueFactory<>("contacto"));
         ColProveedorproducSumis.setCellValueFactory(new PropertyValueFactory<>("productosSuministrados"));
+
+        ColVentasFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        ColVentasCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        ColVentasClienteID.setCellValueFactory(new PropertyValueFactory<>("clienteID"));
+        ColVentasProveedorID.setCellValueFactory(new PropertyValueFactory<>("proveedorID"));
+        ColVentasProductosID.setCellValueFactory(new PropertyValueFactory<>("productosID"));
+        ColVentasPedidoID.setCellValueFactory(new PropertyValueFactory<>("pedidoID"));
     }
     private void cargarDatosProveedores() {
         try (Connection conn = ConexionPool.obtenerConexion();
@@ -225,6 +246,50 @@ public class ControlPrincipal {
         }
     }
     @FXML
+    private void cargarDatosVentas() {
+        try (Connection conn = ConexionPool.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ventas");
+             ResultSet rs = stmt.executeQuery()) {
+
+            tablaVentas.getItems().clear();
+
+            while (rs.next()) {
+                Venta venta = new Venta(
+                        rs.getString("fecha"),
+                        rs.getInt("cantidad"),
+                        rs.getInt("clienteID"),
+                        rs.getInt("proveedorID"),
+                        rs.getInt("productosID"),
+                        rs.getInt("pedidoID")
+                );
+                tablaVentas.getItems().add(venta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void crearVenta() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarVenta.fxml"));
+            Parent registrarRoot = loader.load();
+            RegistrarVenta registrarVenta = loader.getController();
+            Scene scene = new Scene(registrarRoot);
+            Stage stage = new Stage();
+            stage.setTitle("Registrar Nueva Venta");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.showAndWait();
+
+            // Después de agregar la venta, actualiza la vista de ventas
+            actualizarVistaVentas();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void crearProducto() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/sge/RegistrarProducto.fxml"));
@@ -281,5 +346,7 @@ public class ControlPrincipal {
     public void actualizarVistaProveedores() {
         cargarDatosProveedores();
     }
-
+    public void actualizarVistaVentas() {
+        cargarDatosVentas();
+    }
 }
