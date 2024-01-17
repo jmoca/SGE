@@ -12,7 +12,7 @@ def conectar_bd():
         'user': 'root',
         'password': 'root',
         'host': 'localhost',
-        'database': 'SGE_Tareas',
+        'database': 'sge_tareas',
         'raise_on_warnings': True
     }
 
@@ -56,8 +56,8 @@ def menu_principal():
 
 def iniciar_sesion():
     # Solicitar al usuario que ingrese su nombre de usuario y contraseña
-    usuario_input = input("Ingrese su nombre de usuario: ")
-    contrasena_input = input("Ingrese su contraseña: ")
+    usuario = input("Ingrese su nombre de usuario: ")
+    contrasena = input("Ingrese su contraseña: ")
 
     # Conectar a la base de datos
     conexion = conectar_bd()
@@ -68,8 +68,8 @@ def iniciar_sesion():
             cursor = conexion.cursor()
 
             # Consulta SQL para buscar el usuario y la contraseña en la base de datos
-            consulta = "SELECT usuario, contrasena FROM Usuarios WHERE usuario = %s AND contrasena = %s"
-            parametros = (usuario_input, contrasena_input)
+            consulta = "SELECT nombre, contrasena FROM Usuarios WHERE nombre = %s AND contrasena = %s"
+            parametros = (usuario, contrasena)
 
             # Ejecutar la consulta
             cursor.execute(consulta, parametros)
@@ -79,6 +79,7 @@ def iniciar_sesion():
 
             if resultado:
                 print("Sesión iniciada")
+                menu_tareas(usuario)
             else:
                 print("Usuario o contraseña incorrectos")
 
@@ -89,12 +90,42 @@ def iniciar_sesion():
             # Cerrar el cursor y la conexión
             cursor.close()
             cerrar_conexion(conexion)
-    pass
+
 
 
 def registrar_usuario():
-    # Implementar la lógica de registro de usuarios
-    pass
+    nuevo_usuario = input("Ingrese un nombre de usuario: ")
+    nueva_contrasena = input("Ingrese una contraseña: ")
+
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Consulta SQL para insertar el nuevo usuario en la base de datos
+            consulta = "INSERT INTO usuarios (nombre, contrasena) VALUES (%s, %s)"
+            parametros = (nuevo_usuario, nueva_contrasena)
+
+            # Ejecutar la consulta
+            cursor.execute(consulta, parametros)
+
+            # Confirmar la transacción
+            conexion.commit()
+
+            print("Usuario registrado exitosamente")
+
+        except mysql.connector.Error as err:
+            # Revertir la transacción en caso de error
+            print(f"Error: {err}")
+            conexion.rollback()
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            cerrar_conexion(conexion)
 
 
 def menu_tareas(usuario):
@@ -131,23 +162,205 @@ def menu_tareas(usuario):
 
 
 def agregar_tarea(usuario):
-    # Implementar la lógica para agregar una tarea
-    pass
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Solicitar al usuario los detalles de la nueva tarea
+            nombre_tarea = input("Ingrese el nombre de la tarea: ")
+            fecha_vencimiento = input("Ingrese la fecha de vencimiento (formato YYYY-MM-DD): ")
+
+            # Validar y convertir la fecha de vencimiento a formato datetime
+            try:
+                fecha_vencimiento = datetime.strptime(fecha_vencimiento, "%Y-%m-%d").date()
+            except ValueError:
+                print("Formato de fecha incorrecto. Utilice el formato YYYY-MM-DD.")
+                return
+
+            # Solicitar la prioridad de la tarea
+            prioridad = input("Ingrese la prioridad de la tarea (Baja/Media/Alta): ")
+
+            # Validar la prioridad
+            if prioridad not in ["Baja", "Media", "Alta"]:
+                print("Prioridad no válida. Utilice Baja, Media o Alta.")
+                return
+
+            # Consulta SQL para insertar la nueva tarea en la base de datos
+            consulta = "INSERT INTO Tareas (nombre, fecha_vencimiento, prioridad) VALUES (%s, %s, %s)"
+            parametros = (nombre_tarea, fecha_vencimiento, prioridad)
+
+            # Ejecutar la consulta
+            cursor.execute(consulta, parametros)
+
+            # Confirmar la transacción
+            conexion.commit()
+
+            print("Tarea agregada exitosamente")
+
+        except mysql.connector.Error as err:
+            # Revertir la transacción en caso de error
+            print(f"Error al agregar tarea: {err}")
+            conexion.rollback()
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            cerrar_conexion(conexion)
 
 
 def asociar_tarea(usuario):
-    # Implementar la lógica para asociar una tarea a un usuario
-    pass
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Solicitar al usuario los detalles de la nueva tarea
+            nombre_tarea = input("Ingrese el nombre de la tarea: ")
+            fecha_vencimiento = input("Ingrese la fecha de vencimiento (formato YYYY-MM-DD): ")
+
+            # Validar y convertir la fecha de vencimiento a formato datetime
+            try:
+                fecha_vencimiento = datetime.strptime(fecha_vencimiento, "%Y-%m-%d").date()
+            except ValueError:
+                print("Formato de fecha incorrecto. Utilice el formato YYYY-MM-DD.")
+                return
+
+            # Solicitar la prioridad de la tarea
+            prioridad = input("Ingrese la prioridad de la tarea (Baja/Media/Alta): ")
+
+            # Validar la prioridad
+            if prioridad not in ["Baja", "Media", "Alta"]:
+                print("Prioridad no válida. Utilice Baja, Media o Alta.")
+                return
+
+            # Consulta SQL para insertar la nueva tarea en la base de datos
+            consulta = "INSERT INTO Tareas (nombre, fecha_vencimiento, prioridad) VALUES (%s, %s, %s)"
+            parametros = (nombre_tarea, fecha_vencimiento, prioridad)
+
+            # Ejecutar la consulta
+            cursor.execute(consulta, parametros)
+
+            # Confirmar la transacción
+            conexion.commit()
+
+            print("Tarea agregada exitosamente")
+
+        except mysql.connector.Error as err:
+            # Revertir la transacción en caso de error
+            print(f"Error al agregar tarea: {err}")
+            conexion.rollback()
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            cerrar_conexion(conexion)
 
 
 def ver_lista_tareas():
-    # Implementar la lógica para mostrar la lista de tareas
-    pass
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Consulta SQL para obtener la lista completa de tareas con detalles
+            consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas"
+            cursor.execute(consulta)
+
+            # Obtener el resultado de la consulta
+            tareas = cursor.fetchall()
+
+            # Mostrar la lista de tareas al usuario
+            if not tareas:
+                print("No hay tareas disponibles.")
+            else:
+                print("Lista completa de tareas:")
+                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad")
+                print("-" * 50)
+                for tarea in tareas:
+                    print(f"{tarea[0]} | {tarea[1]} | {tarea[2]} | {tarea[3]}")
+
+        except mysql.connector.Error as err:
+            print(f"Error al obtener la lista de tareas: {err}")
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            cerrar_conexion(conexion)
 
 
 def marcar_tarea_completada():
-    # Implementar la lógica para marcar una tarea como completada
-    pass
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Mostrar la lista de tareas disponibles para que el usuario elija cuál marcar
+            ver_lista_tareas()
+
+            # Solicitar al usuario el ID de la tarea que desea marcar como completada
+            id_tarea = input("Ingrese el ID de la tarea que desea marcar como completada: ")
+
+            # Verificar si el ID de la tarea es válido
+            if not id_tarea.isdigit():
+                print("ID de tarea no válido.")
+                return
+
+            # Consulta SQL para obtener la tarea seleccionada
+            consulta_tarea = "SELECT nombre, completada FROM Tareas WHERE id = %s"
+            cursor.execute(consulta_tarea, (int(id_tarea),))
+            tarea_seleccionada = cursor.fetchone()
+
+            if not tarea_seleccionada:
+                print("No se encontró la tarea con el ID proporcionado.")
+                return
+
+            # Mostrar el estado actual de la tarea
+            estado_actual = "completada" if tarea_seleccionada[1] else "no completada"
+            print(f"La tarea '{tarea_seleccionada[0]}' está actualmente {estado_actual}")
+
+            # Solicitar al usuario que marque la tarea como completada o no completada
+            opcion = input("¿Desea marcar la tarea como completada? (1: Sí, 2: No): ")
+
+            # Verificar la opción del usuario
+            if opcion == "1":
+                # Consulta SQL para marcar la tarea como completada
+                consulta_completada = "UPDATE Tareas SET completada = TRUE WHERE id = %s"
+            elif opcion == "2":
+                # Consulta SQL para marcar la tarea como no completada
+                consulta_completada = "UPDATE Tareas SET completada = FALSE WHERE id = %s"
+            else:
+                print("Opción no válida.")
+                return
+
+            # Ejecutar la consulta para marcar la tarea como completada o no completada
+            cursor.execute(consulta_completada, (int(id_tarea),))
+
+            # Confirmar la transacción
+            conexion.commit()
+
+            print("Tarea marcada exitosamente")
+
+        except mysql.connector.Error as err:
+            # Revertir la transacción en caso de error
+            print(f"Error al marcar tarea como completada: {err}")
+            conexion.rollback()
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            cerrar_conexion(conexion)
 
 
 def filtrar_por_prioridad():
