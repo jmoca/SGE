@@ -1,6 +1,6 @@
 import sys
 import mysql.connector
-import datetime
+from datetime import datetime as dt, datetime
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -21,13 +21,10 @@ def conectar_bd():
 
         # Comprobar si la conexión se estableció correctamente
         if conexion.is_connected():
-            print("Conexión exitosa a la base de datos")
             return conexion
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return None
-
-
 
 
 def menu_principal():
@@ -45,7 +42,6 @@ def menu_principal():
     else:
         print("Opción no válida. Intente de nuevo.")
         menu_principal()
-
 
 
 def iniciar_sesion():
@@ -85,8 +81,6 @@ def iniciar_sesion():
             cursor.close()
 
 
-
-
 def registrar_usuario():
     nuevo_usuario = input("Ingrese un nombre de usuario: ")
     nueva_contrasena = input("Ingrese una contraseña: ")
@@ -119,7 +113,6 @@ def registrar_usuario():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-
 
 
 def menu_tareas(usuario):
@@ -166,13 +159,14 @@ def agregar_tarea(usuario):
 
             # Solicitar al usuario los detalles de la nueva tarea
             nombre_tarea = input("Ingrese el nombre de la tarea: ")
-            fecha_vencimiento = input("Ingrese la fecha de vencimiento (formato YYYY-MM-DD): ")
+            fecha_vencimiento = input("Ingrese la fecha de vencimiento (formato DD-MM-YYYY): ")
 
             # Validar y convertir la fecha de vencimiento a formato datetime
             try:
-                fecha_vencimiento = datetime.strptime(fecha_vencimiento, "%Y-%m-%d").date()
+                fecha_vencimiento = dt.strptime(fecha_vencimiento, "%d-%m-%Y").date()
+
             except ValueError:
-                print("Formato de fecha incorrecto. Utilice el formato YYYY-MM-DD.")
+                print("Formato de fecha incorrecto. Utilice el formato DD-MM-YYYY.")
                 return
 
             # Solicitar la prioridad de la tarea
@@ -205,8 +199,8 @@ def agregar_tarea(usuario):
             cursor.close()
 
 
-
 def asociar_tarea(usuario):
+    # Conectar a la base de datos
     conexion = conectar_bd()
 
     if conexion:
@@ -214,46 +208,62 @@ def asociar_tarea(usuario):
             # Crear un cursor para ejecutar consultas SQL
             cursor = conexion.cursor()
 
-            # Solicitar al usuario los detalles de la nueva tarea
-            nombre_tarea = input("Ingrese el nombre de la tarea: ")
-            fecha_vencimiento = input("Ingrese la fecha de vencimiento (formato YYYY-MM-DD): ")
+            # Mostrar la lista de tareas al usuario
+            ver_lista_tareas()
 
-            # Validar y convertir la fecha de vencimiento a formato datetime
-            try:
-                fecha_vencimiento = datetime.strptime(fecha_vencimiento, "%Y-%m-%d").date()
-            except ValueError:
-                print("Formato de fecha incorrecto. Utilice el formato YYYY-MM-DD.")
+            # Solicitar al usuario el ID de la tarea que desea asociar
+            id_tarea = input("Ingrese el ID de la tarea que desea asociar: ")
+
+            # Verificar si el ID de la tarea es válido
+            if not id_tarea.isdigit():
+                print("ID de tarea no válido.")
                 return
 
-            # Solicitar la prioridad de la tarea
-            prioridad = input("Ingrese la prioridad de la tarea (Baja/Media/Alta): ")
+            id_tarea = int(id_tarea)
 
-            # Validar la prioridad
-            if prioridad not in ["Baja", "Media", "Alta"]:
-                print("Prioridad no válida. Utilice Baja, Media o Alta.")
+            # Consultar la tarea seleccionada
+            consulta_tarea = "SELECT nombre FROM Tareas WHERE id = %s"
+            cursor.execute(consulta_tarea, (id_tarea,))
+            tarea = cursor.fetchone()
+
+            if not tarea:
+                print("No se encontró la tarea con el ID proporcionado.")
                 return
 
-            # Consulta SQL para insertar la nueva tarea en la base de datos
-            consulta = "INSERT INTO Tareas (nombre, fecha_vencimiento, prioridad) VALUES (%s, %s, %s)"
-            parametros = (nombre_tarea, fecha_vencimiento, prioridad)
+            nombre_tarea = tarea[0]
+
+            # Solicitar al usuario el nombre de usuario al que desea asociar la tarea
+            nombre_usuario_asociado = input("Ingrese el nombre de usuario al que desea asociar la tarea: ")
+
+            # Verificar si el usuario existe en la base de datos
+            consulta_usuario = "SELECT id FROM Usuarios WHERE nombre = %s"
+            cursor.execute(consulta_usuario, (nombre_usuario_asociado,))
+            usuario_existente = cursor.fetchone()
+
+            if not usuario_existente:
+                print(f"No se encontró el usuario '{nombre_usuario_asociado}'.")
+                return
+
+            # Consulta SQL para asociar la tarea a un usuario
+            consulta_asociar = "INSERT INTO Asignaciones (id_usuario, id_tarea) VALUES (%s, %s)"
+            parametros_asociar = (usuario_existente[0], id_tarea)
 
             # Ejecutar la consulta
-            cursor.execute(consulta, parametros)
+            cursor.execute(consulta_asociar, parametros_asociar)
 
             # Confirmar la transacción
             conexion.commit()
 
-            print("Tarea agregada exitosamente")
+            print(f"Tarea '{nombre_tarea}' asociada al usuario '{nombre_usuario_asociado}' exitosamente.")
 
         except mysql.connector.Error as err:
             # Revertir la transacción en caso de error
-            print(f"Error al agregar tarea: {err}")
+            print(f"Error al asociar tarea: {err}")
             conexion.rollback()
 
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-
 
 
 def ver_lista_tareas():
@@ -266,7 +276,10 @@ def ver_lista_tareas():
             cursor = conexion.cursor()
 
             # Consulta SQL para obtener la lista completa de tareas con detalles
-            consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas"
+            consulta = "SELECT t.id, t.nombre, t.fecha_vencimiento, t.prioridad, t.completada, u.nombre AS usuario_asociado \
+                            FROM Tareas t \
+                            LEFT JOIN Asignaciones a ON t.id = a.id_tarea \
+                            LEFT JOIN Usuarios u ON a.id_usuario = u.id"
             cursor.execute(consulta)
 
             # Obtener el resultado de la consulta
@@ -277,10 +290,12 @@ def ver_lista_tareas():
                 print("No hay tareas disponibles.")
             else:
                 print("Lista completa de tareas:")
-                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad")
-                print("-" * 50)
+                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad | Completada | Usuario Asociado")
+                print("-" * 95)
                 for tarea in tareas:
-                    print(f"{tarea[0]} | {tarea[1]} | {tarea[2]} | {tarea[3]}")
+                    completada = "Sí" if tarea[4] else "No"
+                    usuario_asociado = tarea[5] if tarea[5] else "No asociada"
+                    print(f"{tarea[0]}   |    {tarea[1]}    |   {tarea[2]}   |   {tarea[3]}   |   {completada}   |   {usuario_asociado}")
 
         except mysql.connector.Error as err:
             print(f"Error al obtener la lista de tareas: {err}")
@@ -288,7 +303,6 @@ def ver_lista_tareas():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-
 
 
 def marcar_tarea_completada():
@@ -356,7 +370,6 @@ def marcar_tarea_completada():
             cursor.close()
 
 
-
 def filtrar_por_prioridad():
     # Conectar a la base de datos
     conexion = conectar_bd()
@@ -399,7 +412,6 @@ def filtrar_por_prioridad():
             cursor.close()
 
 
-
 def recordatorio_tareas(usuario):
     # Conectar a la base de datos
     conexion = conectar_bd()
@@ -413,7 +425,7 @@ def recordatorio_tareas(usuario):
             fecha_actual = datetime.date.today()
 
             # Consulta SQL para obtener las tareas pendientes para el día actual
-            consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE fecha_vencimiento = %s AND completada = FALSE"
+            consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE DATE(fecha_vencimiento) = %s AND completada = FALSE"
             cursor.execute(consulta, (fecha_actual,))
 
             # Obtener el resultado de la consulta
@@ -435,7 +447,6 @@ def recordatorio_tareas(usuario):
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-
 
 
 def imprimir_listados():
@@ -487,7 +498,6 @@ def imprimir_listados():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            
 
 
 while True:
