@@ -1,10 +1,8 @@
--- Script SQL para crear las tablas del sistema de gestión de tareas
+USE sge_tareas;
 
--- Tabla de Usuarios
 CREATE TABLE IF NOT EXISTS Usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(50) NOT NULL
 );
 
@@ -25,7 +23,3 @@ CREATE TABLE IF NOT EXISTS Asignaciones (
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
     FOREIGN KEY (id_tarea) REFERENCES Tareas(id)
 );
-
--- Puedes agregar otras tablas o modificar la estructura según tus necesidades
-
--- Asegúrate de ajustar la longitud de los campos VARCHAR y otros detalles según tus necesidades
