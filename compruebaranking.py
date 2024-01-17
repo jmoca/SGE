@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import sys
 import mysql.connector
 import datetime
@@ -29,11 +28,6 @@ def conectar_bd():
         return None
 
 
-def cerrar_conexion(conexion):
-    # Cerrar la conexión a la base de datos
-    if conexion.is_connected():
-        conexion.close()
-        print("Conexión cerrada")
 
 
 def menu_principal():
@@ -89,7 +83,7 @@ def iniciar_sesion():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            cerrar_conexion(conexion)
+
 
 
 
@@ -125,7 +119,7 @@ def registrar_usuario():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            cerrar_conexion(conexion)
+
 
 
 def menu_tareas(usuario):
@@ -209,7 +203,7 @@ def agregar_tarea(usuario):
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            cerrar_conexion(conexion)
+
 
 
 def asociar_tarea(usuario):
@@ -259,7 +253,7 @@ def asociar_tarea(usuario):
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            cerrar_conexion(conexion)
+
 
 
 def ver_lista_tareas():
@@ -294,7 +288,7 @@ def ver_lista_tareas():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            cerrar_conexion(conexion)
+
 
 
 def marcar_tarea_completada():
@@ -360,22 +354,140 @@ def marcar_tarea_completada():
         finally:
             # Cerrar el cursor y la conexión
             cursor.close()
-            cerrar_conexion(conexion)
+
 
 
 def filtrar_por_prioridad():
-    # Implementar la lógica para filtrar tareas por prioridad
-    pass
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Solicitar al usuario que ingrese la prioridad deseada
+            prioridad_deseada = input("Ingrese la prioridad deseada (Baja/Media/Alta): ")
+
+            # Validar la prioridad ingresada
+            if prioridad_deseada not in ["Baja", "Media", "Alta"]:
+                print("Prioridad no válida. Utilice Baja, Media o Alta.")
+                return
+
+            # Consulta SQL para obtener las tareas filtradas por prioridad
+            consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE prioridad = %s"
+            cursor.execute(consulta, (prioridad_deseada,))
+
+            # Obtener el resultado de la consulta
+            tareas_filtradas = cursor.fetchall()
+
+            # Mostrar las tareas filtradas al usuario
+            if not tareas_filtradas:
+                print(f"No hay tareas con prioridad '{prioridad_deseada}'.")
+            else:
+                print(f"Tareas con prioridad '{prioridad_deseada}':")
+                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad")
+                print("-" * 50)
+                for tarea in tareas_filtradas:
+                    print(f"{tarea[0]} | {tarea[1]} | {tarea[2]} | {tarea[3]}")
+
+        except mysql.connector.Error as err:
+            print(f"Error al filtrar tareas por prioridad: {err}")
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+
 
 
 def recordatorio_tareas(usuario):
-    # Implementar la lógica para mostrar un recordatorio de tareas pendientes para el día actual
-    pass
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Obtener la fecha actual
+            fecha_actual = datetime.date.today()
+
+            # Consulta SQL para obtener las tareas pendientes para el día actual
+            consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE fecha_vencimiento = %s AND completada = FALSE"
+            cursor.execute(consulta, (fecha_actual,))
+
+            # Obtener el resultado de la consulta
+            tareas_pendientes = cursor.fetchall()
+
+            # Mostrar las tareas pendientes al usuario
+            if not tareas_pendientes:
+                print("No hay tareas pendientes para el día de hoy.")
+            else:
+                print("Tareas pendientes para el día de hoy:")
+                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad")
+                print("-" * 50)
+                for tarea in tareas_pendientes:
+                    print(f"{tarea[0]} | {tarea[1]} | {tarea[2]} | {tarea[3]}")
+
+        except mysql.connector.Error as err:
+            print(f"Error al obtener el recordatorio de tareas pendientes: {err}")
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+
 
 
 def imprimir_listados():
-    # Implementar la lógica para imprimir listado de tareas completadas y pendientes
-    pass
+    # Conectar a la base de datos
+    conexion = conectar_bd()
+
+    if conexion:
+        try:
+            # Crear un cursor para ejecutar consultas SQL
+            cursor = conexion.cursor()
+
+            # Consulta SQL para obtener las tareas completadas
+            consulta_completadas = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE completada = TRUE"
+            cursor.execute(consulta_completadas)
+
+            # Obtener el resultado de la consulta
+            tareas_completadas = cursor.fetchall()
+
+            # Mostrar las tareas completadas al usuario
+            if not tareas_completadas:
+                print("No hay tareas completadas.")
+            else:
+                print("Tareas Completadas:")
+                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad")
+                print("-" * 50)
+                for tarea in tareas_completadas:
+                    print(f"{tarea[0]} | {tarea[1]} | {tarea[2]} | {tarea[3]}")
+
+            # Consulta SQL para obtener las tareas pendientes
+            consulta_pendientes = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE completada = FALSE"
+            cursor.execute(consulta_pendientes)
+
+            # Obtener el resultado de la consulta
+            tareas_pendientes = cursor.fetchall()
+
+            # Mostrar las tareas pendientes al usuario
+            if not tareas_pendientes:
+                print("No hay tareas pendientes.")
+            else:
+                print("\nTareas Pendientes:")
+                print("ID | Nombre de Tarea | Fecha de Vencimiento | Prioridad")
+                print("-" * 50)
+                for tarea in tareas_pendientes:
+                    print(f"{tarea[0]} | {tarea[1]} | {tarea[2]} | {tarea[3]}")
+
+        except mysql.connector.Error as err:
+            print(f"Error al imprimir listados de tareas: {err}")
+
+        finally:
+            # Cerrar el cursor y la conexión
+            cursor.close()
+            
 
 
 while True:
