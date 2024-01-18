@@ -1,6 +1,6 @@
 import sys
 import mysql.connector
-from datetime import datetime as dt, datetime
+from datetime import datetime as dt, datetime, date
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -413,7 +413,7 @@ def filtrar_por_prioridad():
 
 
 def recordatorio_tareas(usuario):
-    # Conectar a la base de datos
+
     conexion = conectar_bd()
 
     if conexion:
@@ -422,7 +422,7 @@ def recordatorio_tareas(usuario):
             cursor = conexion.cursor()
 
             # Obtener la fecha actual
-            fecha_actual = datetime.date.today()
+            fecha_actual = date.today()
 
             # Consulta SQL para obtener las tareas pendientes para el día actual
             consulta = "SELECT id, nombre, fecha_vencimiento, prioridad FROM Tareas WHERE DATE(fecha_vencimiento) = %s AND completada = FALSE"
