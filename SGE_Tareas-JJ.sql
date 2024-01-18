@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS sge_tareas;
+
 USE sge_tareas;
 
 CREATE TABLE IF NOT EXISTS Usuarios (
